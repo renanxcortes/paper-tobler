@@ -122,7 +122,27 @@ result = area_interpolate(
 )
 ```
 
-This operation transfers population counts and income measures from the source geometries to the target geometries, handling each variable type appropriately.
+This operation transfers population counts and income measures from the source geometries to the target geometries, handling each variable type (extensive/intensive) appropriately. 
+
+When additional information about within-zone heterogeneity is available, dasymetric interpolation can be used to refine estimates. For example, population counts may be redistributed using a land cover raster to exclude uninhabited areas:
+
+```python
+from tobler.dasymetric import masked_area_interpolate
+
+result = masked_area_interpolate(
+    raster="raster_file_name.tif",
+    source_df,
+    target_df,
+    pixel_values = [21,22,23,24],
+    extensive_variables=["population"]
+)
+```
+
+This approach assumes the user have a raster data of his own that can be read by rasterio^[A common example is the ones available at the [National Land Cover Database](https://www.mrlc.gov/national-land-cover-database-nlcd-2016)]. In this example, `tobler` allows a flexible approach where the user can pass which pixels are to be assumed inhabited through `pixel_values` resulting in a more realistic spatial distribution. Similarly, the user can execute a model-based approach using the `tobler.model.glm` function.
+
+\autoref{fig:emp_male_maps} illustrates an example comparing interpolated values derived from different spatial configurations, highlighting how results may vary depending on the underlying geometry and interpolation approach.
+
+![Example of `tobler` usage for an extensive variable (male employment population) in Charleston, SC, comparing census tracts and ZCTAs.\label{fig:emp_male_maps}](figs/emp_male_maps.png)
 
 # Relationship to existing software
 
