@@ -18,7 +18,7 @@ authors:
   affiliation: 2
 - name: Renan X. Cortes
   orcid: "0000-0002-1889-5282"
-  equal-contrib: false
+  equal-contrib: true
   affiliation: 3
 bibliography: paper.bib
 affiliations:
